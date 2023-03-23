@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASHBOARD</title>
+    <link rel="stylesheet" type="text/css" href="/assets/styling.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="navBar">
+            <div class="navContainer">
+                <a href="/payment" class="btnBook">PROCEED TO PAYMENT</a>
+                <nav>                
+                    <a href="/report">View History</a>
+                    <a href="/login">Log Out</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <h1 style="text-align: center; margin-top: 20px;" id="selectSeat">CENTURY CINEMAX</h1>
+    <h2 style="text-align: center; margin-top: 10px;">Select Your Seat</h2>
+    <div class="container seats">
+        <div id="seatHolder"></div>        
+        <div class="screenBox"></div>
+    </div>
+
+    <h1 style="text-align: center; margin-top: 50px;">UPCOMING MOVIES</h1>
+    <div class="card-container container">
+        {{range .Movies}}
+            <div class="card">
+                <img src="{{.ImageUrl}}" alt="{{.MovieName}}">
+                <h2>{{.MovieName}}</h2>
+                <p>{{.MovieDesc}}</p>
+                <p><strong>Price:</strong> Ksh{{.MoviePrice}}</p>
+                <p><strong>Premier Date:</strong>  {{.PremierDate}}</p>
+                <a href="#selectSeat" class="btnBook">BOOK NOW</a>
+            </div>
+        {{end}}
+
+    </div>
+
+
+    <script>
+
+        var buttonDiv = document.getElementById("seatHolder");
+        const container = document.createElement("div");
+        container.className = "seatContainer";
+
+        for (let i = 1; i <= 200; i++) {
+            const button = document.createElement("button");
+            button.innerHTML = ' <svg id="svg-1" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 432 384">   <path fill="currentColor"                 d="M43 320v-64h341v128h-64v-64H107v64H43v-64zm320-171h64v64h-64v-64zM0 149h64v64H0v-64zm320 64H107V43q0-18 12.5-30.5T149 0h128q18 0 30.5 12.5T320 43v170z" />        </svg>';
+            button.className = "btnSeat";
+            const seatNumber = i;
+
+            const colIndex = Math.floor((i - 1) / 50);
+            const col = container.querySelectorAll(".col")[colIndex];
+            if (!col) {
+                const newCol = document.createElement("div");
+                newCol.className = "col";
+                container.appendChild(newCol);
+            }
+            const currentCol = container.querySelectorAll(".col")[colIndex];
+            currentCol.appendChild(button);
+            
+            let isDim = false;
+            button.addEventListener('click', function() {
+                if(isDim){
+                    button.style.backgroundColor = 'white';
+                    isDim = false;                    
+                }
+                else{
+                    button.style.backgroundColor = 'dimgray';  
+                    isDim = true;     
+                    console.log(seatNumber);     
+                }
+        });
+        }
+
+        buttonDiv.appendChild(container);
+
+    </script>
+
+    <script>
+        {{range .Cinema}}
+
+        {{end}}
+    </script>
+
+</body>
+
+</html>
